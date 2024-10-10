@@ -37,6 +37,7 @@ class UserController extends Controller
     public function updateUser(Request $request){
         $date = $request->validate(
             [
+                'id'=>'required',
                 'name'=> 'required',
                 'email'=> 'required',
                 'password'=> 'required'
@@ -47,14 +48,25 @@ class UserController extends Controller
                     'password'=> 'Campo necesario'
             ]);
             $user = User::find($request->id);
+
+            if (!$user) {
+                return response()->json(['status' => 'error', 'message' => 'Usuario no encontrado'], 404);
+            }
+
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = $request->password;
             $user->save();
+
             return response()->json(['status'=> 'success','user'=> $user]);
         }
         public function deleteUser(Request $request){
             $user = User::find($request->id);
+
+            if (!$user) {
+                return response()->json(['status' => 'error', 'message' => 'Usuario no encontrado'], 404);
+            }
+            
             $user->delete();
             return response()->json(['status'=> 'success','user'=> $user]);
         }
