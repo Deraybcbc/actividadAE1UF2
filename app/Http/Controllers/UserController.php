@@ -43,9 +43,9 @@ class UserController extends Controller
                 'password'=> 'required'
             ],
             [
-                    'name'=> 'Campo necesario',
-                    'email'=>'Campo necesario',
-                    'password'=> 'Campo necesario'
+                'name'=> 'Campo necesario',
+                'email'=>'Campo necesario',
+                'password'=> 'Campo necesario'
             ]);
             $user = User::find($request->id);
 

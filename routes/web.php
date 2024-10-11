@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\AutorizacionController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Login.login');
 });
 
 //CATEGORIAS
@@ -14,6 +15,8 @@ Route::get('/category', [CategoryController::class, 'index'])->name('category.in
 Route::post('/category/create', [CategoryController::class, 'createCategory'])->name('category.create');
 Route::post('/category/update', [CategoryController::class, 'updateCategory'])->name('category.update');
 Route::post('/category/delete', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+
+Route::post('/login', [AutorizacionController::class, 'login'])->name('login.user');
 
 //USERS
 Route::get('/user', [UserController::class, 'index'])->name('user.index');
