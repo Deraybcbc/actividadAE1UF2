@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
+    //FUNCION QUE NOS DEVUELVE LAS NOTAS RELACIONADAS CON EL ID DE CATEGORIAS
+    public function notes(){
+        return $this->hasMany(Note::class, 'idCategory');
+    }
 }

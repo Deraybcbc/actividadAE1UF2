@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Notas</title>
-    <link rel='stylesheet' type='text/css' media='screen' href='/estilos.css'>
+
 </head>
 
 <body>
-
+    <p>a</p>
 </body>
 
 </html>

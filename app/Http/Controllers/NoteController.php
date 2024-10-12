@@ -7,34 +7,33 @@ use App\Models\Note;
 
 class NoteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return view("Note/notas");
     }
 
-    public function createNote(Request $request)
+    public function createNote(Request $request, $id)
     {
         $data = $request->validate(
             [
-                'idCategory' => 'required',
                 'title' => 'required',
                 'desc' => 'required'
             ],
             [
-                'idCategory' => 'Campo necesario',
                 'title' => 'Campo necesario',
                 'desc' => 'Campo necesario'
             ]
         );
 
         $note = new Note();
-        $note->idCategory = $request->idCategory;
+        $note->idCategory = $id;
         $note->title = $request->title;
         $note->desc = $request->desc;
 
         $note->save();
 
-        return response()->json(['status' => 'succees', 'notes' => $note]);
+        return redirect()->route('category.index')->with('success', 'Nota creada correctamente.');
+        //return response()->json(['status' => 'succees', 'notes' => $note]);
     }
     public function updateNote(Request $request)
     {
