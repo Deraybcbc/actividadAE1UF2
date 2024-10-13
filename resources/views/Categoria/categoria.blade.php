@@ -50,7 +50,7 @@
     </nav>
 @endsection
 
-@section('page-category')
+@section('pages')
     <!-- Alertas para mensajes de éxito o error -->
     @if (session('success'))
         <div class="alert alert-success" role="alert">
@@ -93,7 +93,7 @@
                         <span style="display: inline-block; margin: 0 auto;">{{ $category->name }}</span>
 
                         <i class="bi bi-plus-circle" style="margin-left:30px;  cursor: pointer;" data-bs-toggle="modal"
-                            data-bs-target="#createNote "></i>
+                            data-bs-target="#createNote{{ $category->id }}"></i>
 
                     </p>
 
@@ -103,17 +103,52 @@
 
                         @forelse ($category->notes as $note)
                             <li style="margin: 6px;">
+                                <div
+                                    style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start; border: 1px solid black; border-radius: 20px; background-color: rgba(179, 179, 5, 0.384); cursor: pointer; width: 96%; padding: 10px; position: relative;">
 
-                                <form action="{{ route('notes.index') }}" method="GET">
-                                    @csrf
+                                    <form action="{{ route('notes.show', [$note->id]) }}" method="GET"
+                                        style="width: 100%;">
+                                        @csrf
+                                        <span
+                                            style="overflow: hidden; white-space: normal; text-overflow: ellipsis; max-width: calc(100% - 50px);">
+                                            {{ $note->title }}
+                                        </span>
+                                    </form>
 
-                                    <button
-                                        style="border: 1px solid black; border-radius: 20px; background-color: rgba(179, 179, 5, 0.384); cursor: pointer; width: 96%; text-align: left; border: none; padding: 10px; display: block;">
-                                        {{ $note->title }}
-                                    </button>
-
-                                </form>
+                                    <div style="position: absolute; right: 10px; bottom: 10px;">
+                                        <i class="bi bi-pencil" style="cursor: pointer; margin-left: 10px;"
+                                            data-bs-toggle="modal" data-bs-target="#updateModal"></i>
+                                        <i class="bi bi-trash" style="cursor: pointer; margin-left: 10px;"
+                                            data-bs-toggle="modal" data-bs-target="#deleteNote{{ $note->id }}"></i>
+                                    </div>
+                                </div>
                             </li>
+
+                            <form action="{{ route('note.delete', [$note->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <div class="modal fade" id="deleteNote{{ $note->id }}" tabindex="-1"
+                                    aria-labelledby="deleteNote" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="deleteNote">Eliminar nota</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>¿Estás seguro de que deseas eliminar esta nota?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="background-color: red">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    style="background-color: green">Aceptar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
 
                         @empty
                             <li
@@ -185,12 +220,12 @@
 
                     <form action="{{ route('note.create', [$category->id]) }}" method="POST">
                         @csrf
-                        <div class="modal fade" id="createNote" tabindex="-1" aria-labelledby="createNote"
-                            aria-hidden="true">
+                        <div class="modal fade" id="createNote{{ $category->id }}" tabindex="-1"
+                            aria-labelledby="createNote" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="createNote">Crear nueva nota</h1>
+                                        <h1 class="modal-title fs-5" id="createNote">{{ $category->name }}</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>

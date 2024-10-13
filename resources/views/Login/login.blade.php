@@ -1,7 +1,7 @@
 @extends('Layout.master')
 @section('page-style')
 <style>
-    .gradient-custom {
+    body {
         /* fallback for old browsers */
         background: #6a11cb;
 

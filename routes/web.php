@@ -26,7 +26,8 @@ Route::post('/user/update', [UserController::class, 'updateUser'])->name('users.
 Route::post('/user/delete', [UserController::class, 'deleteUser'])->name('users.delete');
 
 //NOTES
-Route::get('/note', [NoteController::class, 'index'])->name('notes.index');
+// web.php
+Route::get('/notes/{id}', [NoteController::class, 'show'])->name('notes.show');
 Route::post('/note/create/{id}', [NoteController::class, 'createNote'])->name('note.create');
 Route::post('/note/update', [NoteController::class, 'updateNote'])->name('note.update');
-Route::post('/note/delete', [NoteController::class, 'deleteNote'])->name('note.delete');
+Route::delete('/note/delete/{id}', [NoteController::class, 'deleteNote'])->name('note.delete');

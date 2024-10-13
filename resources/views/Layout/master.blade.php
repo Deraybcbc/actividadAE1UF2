@@ -25,7 +25,7 @@
 
         @yield('content')
 
-        @yield('page-category')
+        @yield('pages')
 
         @yield('forms-cruds')
 
