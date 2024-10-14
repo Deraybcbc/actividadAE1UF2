@@ -50,22 +50,21 @@ class NoteController extends Controller
         return redirect()->route('category.index')->with('success', 'Nota creada correctamente.');
         //return response()->json(['status' => 'succees', 'notes' => $note]);
     }
-    public function updateNote(Request $request)
+    public function updateNote(Request $request, $id)
     {
         $data = $request->validate(
             [
-                'idCategory' => 'required',
                 'title' => 'required',
                 'desc' => 'required'
             ],
             [
-                'idCategory' => 'Campo necesario',
+                
                 'title' => 'Campo necesario',
                 'desc' => 'Campo necesario'
             ]
         );
 
-        $note = Note::find($request->id);
+        $note = Note::find($id);
 
         if (!$note) {
             return response()->json(['status' => 'error', 'message' => 'No encontrado']);
@@ -75,17 +74,13 @@ class NoteController extends Controller
         $note->desc = $request->desc;
         $note->save();
 
-        return response()->json(['status' => 'success', 'note' => $note]);
+        return redirect()->route('category.index')->with('success', 'Nota creada correctamente.');
     }
 
-    public function deleteNote(Request $request, $id)
+    public function deleteNote($id)
     {
-        $note = Note::find($id);
-
-        if (!$note) {
-            return response()->json(['status' => 'error', 'message' => 'No encontrado']);
-        }
-
+        $note = Note::findOrFail($id);
+   
         $note->delete();
 
         return redirect()->route('category.index')->with('success', 'Nota eliminada.');

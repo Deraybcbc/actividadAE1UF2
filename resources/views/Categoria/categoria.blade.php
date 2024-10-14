@@ -92,8 +92,11 @@
                             data-bs-target="#updateModal{{ $category->id }}"></i>
                         <span style="display: inline-block; margin: 0 auto;">{{ $category->name }}</span>
 
-                        <i class="bi bi-plus-circle" style="margin-left:30px;  cursor: pointer;" data-bs-toggle="modal"
-                            data-bs-target="#createNote{{ $category->id }}"></i>
+                        {{-- <i class="bi bi-plus-circle" style="margin-left:30px;  cursor: pointer;" data-bs-toggle="modal"
+                            data-bs-target="#createNote{{ $category->id }}"></i> --}}
+                        <button class="btnCreateNote" type="button" data-id-category="{{ $category->id }}">
+                            <i class="bi bi-plus-circle" style="margin-left:30px;  cursor: pointer;"></i>
+                        </button>
 
                     </p>
 
@@ -106,20 +109,27 @@
                                 <div
                                     style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start; border: 1px solid black; border-radius: 20px; background-color: rgba(179, 179, 5, 0.384); cursor: pointer; width: 96%; padding: 10px; position: relative;">
 
-                                    <form action="{{ route('notes.show', [$note->id]) }}" method="GET"
-                                        style="width: 100%;">
+                                    <span
+                                        style="overflow: hidden; white-space: normal; text-overflow: ellipsis; max-width: calc(100% - 50px);">
+                                        {{ $note->title }}
+                                    </span>
+                                    
+                                    <form method="POST" action="{{ route('note.delete', ['id' => $note->id]) }}" class="form-delete-{{ $note->id }}">
                                         @csrf
-                                        <span
-                                            style="overflow: hidden; white-space: normal; text-overflow: ellipsis; max-width: calc(100% - 50px);">
-                                            {{ $note->title }}
-                                        </span>
+                                        @method('DELETE')
                                     </form>
+                                    
 
                                     <div style="position: absolute; right: 10px; bottom: 10px;">
-                                        <i class="bi bi-pencil" style="cursor: pointer; margin-left: 10px;"
-                                            data-bs-toggle="modal" data-bs-target="#updateModal"></i>
-                                        <i class="bi bi-trash" style="cursor: pointer; margin-left: 10px;"
-                                            data-bs-toggle="modal" data-bs-target="#deleteNote{{ $note->id }}"></i>
+
+                                        <button class="btn btn-primary btnUpdateNote" type="button" data-id-note="{{ $note->id }}"
+                                            data-title="{{ $note->title }}" data-desc="{{ $note->desc }}">
+                                            <i class="bi bi-pencil" style="cursor: pointer; margin-left: 10px;"></i>
+                                        </button>
+
+                                        <button class="btn btn-secondary btnDeleteNote" type="button" data-id-note="{{$note->id}}">
+                                            <i class="bi bi-trash" style="cursor: pointer; margin-left: 10px;"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </li>
@@ -187,7 +197,7 @@
                     </form>
 
 
-                    <form action="{{ route('category.update', [$category->id]) }}" method="POST">
+                    {{-- <form action="{{ route('category.update', [$category->id]) }}" method="POST">
                         @csrf
                         @method('PUT') <!-- Specify PUT method -->
 
@@ -216,9 +226,9 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
 
-                    <form action="{{ route('note.create', [$category->id]) }}" method="POST">
+                    {{-- <form action="{{ route('note.create', [$category->id]) }}" method="POST">
                         @csrf
                         <div class="modal fade" id="createNote{{ $category->id }}" tabindex="-1"
                             aria-labelledby="createNote" aria-hidden="true">
@@ -244,7 +254,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
                 </a>
             @endforeach
 
@@ -276,8 +286,32 @@
             </div>
         </div>
     </form>
+
+    <div class="modal fade" id="modal-notes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{-- <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir nueva categoría</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div> --}}
+                <form method="POST" id="form-note">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="text" name="title" id="newName" style="width: 100%; height: 2rem;"
+                            placeholder="Titulo de la nota" required />
+                        <textarea name="desc" id="newDesc" placeholder="Descripción"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            style="background-color: red">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: green">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
-{{-- @section('scripts')
+@section('scripts')
     <script src="{{ asset('js/categorias.js') }}"></script>
-@endsection --}}
+@endsection

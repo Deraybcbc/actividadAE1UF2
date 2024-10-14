@@ -1,63 +1,109 @@
-let btnPlus;
-let NameCategory;
-let btnAccept;
-let UpdateCategory;
-let NewName;
-let updateModal;
-let btnDelete;
-let categoryId;
-let categoryId2;
+
+let btnsCreateNote;
+let btnsUpdateNote;
+let btnsDeleteNote;
+let formCreateNote;
 
 function init() {
     console.log("init");
-    btnPlus = document.getElementById('PlusCategory');
-    btnAccept = document.getElementById('btnAccept');
-    UpdateCategory = document.getElementById('btnUpdate');
-    btnDelete = document.getElementById('btnDelete');
+
+    btnsCreateNote = document.querySelectorAll('.btnCreateNote');
+    formCreateNote = document.querySelector('#form-note');
+
+    btnsUpdateNote = document.querySelectorAll('.btnUpdateNote');
+    btnsDeleteNote = document.querySelectorAll('.btnDeleteNote');
 }
 
-// function PlusCategory() {
-//     btnAccept.addEventListener('click', function () {
+function createNote() {
+    btnsCreateNote.forEach(btnCreateNote => {
+        btnCreateNote.addEventListener('click', function () {
+            let idCategory = this.dataset.idCategory;
+            formCreateNote.action = 'http://127.0.0.1:8000/note/create/' + idCategory
 
-//         NameCategory = document.getElementById('categoryName').value;
-//         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            let modal = new bootstrap.Modal(document.querySelector('#modal-notes'));
+            modal.show();
+        });
+    })
 
-//         console.log("Nombre: " + NameCategory);
 
-//         if (NameCategory == '') {
-//             console.log("VACIO");
-//             window.alert("El nombre de la categoría no puede estar vacío")
-//         } else {
+    /*
+     btnAccept.addEventListener('click', function () {
 
-//             fetch('/category/create', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'X-CSRF-TOKEN': token
-//                 },
-//                 body: JSON.stringify({
-//                     name: NameCategory,
-//                 }),
-//             })
-//                 .then(response => response.json())
-//                 .then(data => {
-//                     console.log(data);
-//                     // Verifica si la categoría se creó exitosamente
-//                     if (data.status === 'success') {
-//                         // Limpia el campo de entrada
-//                         document.getElementById('categoryName').value = ""; // Pone en blanco el campo
-//                         // Cierra el modal
+         NameCategory = document.getElementById('categoryName').value;
+        let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-//                         const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal')); // Busca nuestro modal para pdoer cerrarlo
-//                         modal.hide(); // Cierra el modal
-//                     }
-//                 })
-//                 .catch(error => console.error('Error', error));
+        console.log("Nombre: " + NameCategory);
 
-//         }
+        if (NameCategory == '') {
+             console.log("VACIO");
+            window.alert("El nombre de la categoría no puede estar vacío")
+        } else {
+            fetch('/category/create', {
+               method: 'POST',
+               headers: {
+                     'Content-Type': 'application/json',
+                     'X-CSRF-TOKEN': token
+                 },
+                 body: JSON.stringify({
+                     name: NameCategory,
+                 }),
+             })
+                 .then(response => response.json())
+                 .then(data => {
+                     console.log(data);
+                     // Verifica si la categoría se creó exitosamente
+                     if (data.status === 'success') {
+                         // Limpia el campo de entrada
+                         document.getElementById('categoryName').value = ""; // Pone en blanco el campo
+                         // Cierra el modal
+                         const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal')); // Busca nuestro modal para pdoer cerrarlo
+                         modal.hide(); // Cierra el modal
+                     }
+                 })
+                 .catch(error => console.error('Error', error));
+         }
+     });*/
+}
 
-//     });
-// }
+function updateNote() {
+    btnsUpdateNote.forEach(btnUpdateNote => {
+        btnUpdateNote.addEventListener('click', function () {
+            let idNote = this.dataset.idNote;
+            formCreateNote.action = 'http://127.0.0.1:8000/note/update/' + idNote
+            document.querySelector('#newName').value = this.dataset.title;
+            document.querySelector('#newDesc').value = this.dataset.desc;
+
+            let modal = new bootstrap.Modal(document.querySelector('#modal-notes'));
+            modal.show();
+        });
+    })
+}
+
+function deleteNote() {
+    btnsDeleteNote.forEach(btnDeleteNote => {
+        btnDeleteNote.addEventListener('click', function () {
+            let idNote = this.dataset.idNote;
+            console.log("Nota eliminada: " + idNote);
+            Swal.fire({
+                title: 'Advertencia!',
+                text: 'Estas seguro de eliminar esta nota',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Aquí puedes ejecutar la lógica de eliminación
+                    console.log("Nota eliminada: " + idNote);
+                    document.querySelector('.form-delete-'+idNote).submit();
+                }
+            });
+
+            // let modal = new bootstrap.Modal(document.querySelector('#modal-notes'));
+            // modal.show();
+        });
+    })
+}
 
 function updateCategory() {
     UpdateCategory.addEventListener('click', function () {
@@ -141,7 +187,8 @@ function setCategoryIdToUpdate(categoryIdBlade) {
 
 document.addEventListener('DOMContentLoaded', function () {
     init();
-    //PlusCategory();
-//     updateCategory();
-//     deleteCategory();
- });
+    createNote();
+    updateNote();
+    deleteNote();
+    //     deleteCategory();
+});
