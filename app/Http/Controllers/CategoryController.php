@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Note;
 
 class CategoryController extends Controller
 {
@@ -61,20 +62,17 @@ class CategoryController extends Controller
         return redirect()->route('category.index')->with('success', 'Categoría actualizada.');
     }
 
-    public function deleteCategory(Request $request, $id)
+    public function deleteCategory($id)
     {
-        $category = Category::find($id);
+        $notes = Note::findOrFail($id);
 
-        if (!$category) {
-            return response()->json(['status' => 'error', 'message' => "Categoría no encontrada"], 404);
+        foreach ($notes as $note) {
+            $note->delete();
         }
-
-        if ($category->notes->isNotEmpty()) {
-            return redirect()->route('category.index')->with('error', 'La categoría no se puede eliminar porque contiene notas.');
-        }
+        
+        $category = Category::findOrFail($id);
 
         $category->delete();
-
 
         return redirect()->route('category.index')->with('success', 'Categoría eliminada.');
     }

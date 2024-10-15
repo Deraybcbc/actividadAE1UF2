@@ -3,15 +3,22 @@ let btnsCreateNote;
 let btnsUpdateNote;
 let btnsDeleteNote;
 let formCreateNote;
+let formCreateCategory;
+let btnsCreateCategory;
+let btnsUpdateCategory;
+let btnsDeleteCategory;
 
 function init() {
     console.log("init");
+    formCreateNote = document.querySelector('#form-note');
+    formCreateCategory = document.querySelector('#form-category');
 
     btnsCreateNote = document.querySelectorAll('.btnCreateNote');
-    formCreateNote = document.querySelector('#form-note');
-
     btnsUpdateNote = document.querySelectorAll('.btnUpdateNote');
     btnsDeleteNote = document.querySelectorAll('.btnDeleteNote');
+    btnsCreateCategory = document.querySelectorAll('.btnCreateCategory');
+    btnsUpdateCategory = document.querySelectorAll('.btnUpdateCategory');
+    btnsDeleteCategory = document.querySelectorAll('.btnDeleteCategory');
 }
 
 function createNote() {
@@ -69,7 +76,7 @@ function updateNote() {
     btnsUpdateNote.forEach(btnUpdateNote => {
         btnUpdateNote.addEventListener('click', function () {
             let idNote = this.dataset.idNote;
-            formCreateNote.action = 'http://127.0.0.1:8000/note/update/' + idNote
+            formCreateNote.action = 'http://127.0.0.1:8000/note/update/' + idNote;
             document.querySelector('#newName').value = this.dataset.title;
             document.querySelector('#newDesc').value = this.dataset.desc;
 
@@ -95,17 +102,37 @@ function deleteNote() {
                 if (result.isConfirmed) {
                     // Aquí puedes ejecutar la lógica de eliminación
                     console.log("Nota eliminada: " + idNote);
-                    document.querySelector('.form-delete-'+idNote).submit();
+                    document.querySelector('.form-delete-' + idNote).submit();
                 }
             });
-
-            // let modal = new bootstrap.Modal(document.querySelector('#modal-notes'));
-            // modal.show();
         });
-    })
+    });
+}
+
+function createCategory() {
+    btnsCreateCategory.forEach(btnCreateCategory => {
+        btnCreateCategory.addEventListener('click', function () {
+            formCreateCategory.action = 'http://127.0.0.1:8000/category/create';
+
+            let modal = new bootstrap.Modal(document.querySelector('#modal-category'));
+            modal.show();
+        });
+    });
 }
 
 function updateCategory() {
+    btnsUpdateCategory.forEach(btnUpdateCategory => {
+        btnUpdateCategory.addEventListener('click', function () {
+            let idCategory = this.dataset.idCategory;
+            formCreateCategory.action = 'http://127.0.0.1:8000/category/update/' + idCategory;
+            document.querySelector('#categoryName').value = this.dataset.name;
+
+            let modal = new bootstrap.Modal(document.querySelector('#modal-category'));
+            modal.show();
+        });
+    });
+
+    /*
     UpdateCategory.addEventListener('click', function () {
         NewName = document.getElementById('newName').value;
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -137,11 +164,32 @@ function updateCategory() {
             })
             .catch(error => console.error('Error', error))
 
-    })
+    })*/
 
 }
 
 function deleteCategory() {
+    btnsDeleteCategory.forEach(btnDeleteCategory => {
+        btnDeleteCategory.addEventListener('click', function () {
+            let idCategory = this.dataset.idCategory;
+            console.log("Id Categoria eliminada: " + idCategory);
+            // Swal.fire({
+            //     title: 'Advertencia!',
+            //     html: 'Estas seguro de eliminar esta categoria' + '</br>' + 'Al eliminar la categoria se eliminaras las notas que esten dentro',
+            //     icon: 'warning',
+            //     showCancelButton: true,
+            //     confirmButtonText: 'Aceptar',
+            //     cancelButtonText: 'Cancelar'
+            // }).then((result) => {
+            //     if (result.isConfirmed) {
+            //         // Aquí puedes ejecutar la lógica de eliminación
+            //         console.log("Categoria eliminada: " + idCategory);
+            //         document.querySelector('.form-delete-' + idCategory).submit();
+            //     }
+            // });
+        });
+    });
+    /*
     btnDelete.addEventListener('click', function () {
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -168,27 +216,16 @@ function deleteCategory() {
                 }
             })
             .catch(error => console.error('Error', error));
-    })
+    })*/
 }
 
-function setCategoryIdToDelete(categoryId) {
-    categoryId2 = categoryId;
-    // Actualizar la acción del formulario con el id de la categoría
-    var form = updateModal.querySelector('form');
-    form.action = `/category/delete/${categoryId2}`;
-}
-
-function setCategoryIdToUpdate(categoryIdBlade) {
-    categoryId = categoryIdBlade;
-    // Actualizar la acción del formulario con el id de la categoría
-    var form = updateModal.querySelector('form');
-    form.action = `/category/update/${categoryId}`;
-}
 
 document.addEventListener('DOMContentLoaded', function () {
     init();
     createNote();
     updateNote();
     deleteNote();
-    //     deleteCategory();
+    createCategory();
+    updateCategory();
+    deleteCategory();
 });

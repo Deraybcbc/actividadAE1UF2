@@ -13,7 +13,7 @@ Route::get('/', function () {
 //CATEGORIAS
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::post('/category/create', [CategoryController::class, 'createCategory'])->name('category.create');
-Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
+Route::post('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 
 //LOGIN

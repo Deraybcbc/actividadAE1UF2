@@ -55,15 +55,14 @@
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{ session('success') }}
-            <button type="button" class="btn-close" style="" data-bs-dismiss="alert"
-                aria-label="Close">Cerrar</button>
+            <button type="button" class="btn-close" style="" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
     @if (session('error'))
         <div class="alert alert-danger" role="alert">
             {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">Cerrar</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
@@ -74,28 +73,42 @@
 
         <div style="display: flex; flex-wrap: wrap; justify-content: flex-start;" id="AllCategory">
 
-            <a style="width: 9cm; height: 11cm; display: flex; border: 1px solid black; margin: 10px; color: black; text-align: center; line-height: 4rem; justify-content:center; align-items:center; cursor: pointer;"
-                id="PlusCategoryCard" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button class="btnCreateCategory" type="button"
+                style="width: 9cm; height: 11cm; display: flex; border: 1px solid black; margin: 10px; color: black; text-align: center; line-height: 4rem; justify-content:center; align-items:center; cursor: pointer;">
 
-                <i class="bi bi-plus-circle" style="font-size: 3rem" id="PlusCategory"></i>
+                <i class="bi bi-plus-circle" style="font-size: 3rem; color:grey"></i>
 
-            </a>
+            </button>
 
             @foreach ($categories as $category)
                 <a
                     style="width: 9cm; height: 11cm; display: inline-block; border: 1px solid black; margin: 10px; color: black; text-align: center; line-height: 4rem; overflow:hidden">
 
+                    <form method="POST" action="{{ route('category.delete', ['id' => $category->id]) }}"
+                        class="form-delete-{{ $category->id }}">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+
                     <p style="border: 1px solid black; background-color:#60348f; color:white ">
-                        <i class="bi bi-trash" style="margin-right: 30px; cursor:pointer;" data-bs-toggle="modal"
-                            data-bs-target="#deleteModal{{ $category->id }}"></i>
-                        <i class="bi bi-pencil" style="margin-right:10px;  cursor: pointer;" data-bs-toggle="modal"
-                            data-bs-target="#updateModal{{ $category->id }}"></i>
+
+                        <button class="btn btn-secondary  btnDeleteCategory" type="button">
+                            <i class="bi bi-trash" style="cursor:pointer; color: white;"
+                                data-id-category="{{ $category->id }}"></i>
+                        </button>
+
+                        <button class="btn btn-primary  btnUpdateCategory" type="button"
+                            data-id-category="{{ $category->id }}" data-name="{{ $category->name }}">
+                            <i class="bi bi-pencil" style="cursor: pointer;"></i>
+                        </button>
+
                         <span style="display: inline-block; margin: 0 auto;">{{ $category->name }}</span>
 
                         {{-- <i class="bi bi-plus-circle" style="margin-left:30px;  cursor: pointer;" data-bs-toggle="modal"
                             data-bs-target="#createNote{{ $category->id }}"></i> --}}
-                        <button class="btnCreateNote" type="button" data-id-category="{{ $category->id }}">
-                            <i class="bi bi-plus-circle" style="margin-left:30px;  cursor: pointer;"></i>
+                        <button class="btn btn-secondary btnCreateNote" type="button"
+                            data-id-category="{{ $category->id }}">
+                            <i class="bi bi-plus-circle" style="color: white;  cursor: pointer;"></i>
                         </button>
 
                     </p>
@@ -113,28 +126,31 @@
                                         style="overflow: hidden; white-space: normal; text-overflow: ellipsis; max-width: calc(100% - 50px);">
                                         {{ $note->title }}
                                     </span>
-                                    
-                                    <form method="POST" action="{{ route('note.delete', ['id' => $note->id]) }}" class="form-delete-{{ $note->id }}">
+
+                                    <form method="POST" action="{{ route('note.delete', ['id' => $note->id]) }}"
+                                        class="form-delete-{{ $note->id }}">
                                         @csrf
                                         @method('DELETE')
                                     </form>
-                                    
+
 
                                     <div style="position: absolute; right: 10px; bottom: 10px;">
 
-                                        <button class="btn btn-primary btnUpdateNote" type="button" data-id-note="{{ $note->id }}"
-                                            data-title="{{ $note->title }}" data-desc="{{ $note->desc }}">
-                                            <i class="bi bi-pencil" style="cursor: pointer; margin-left: 10px;"></i>
+                                        <button class="btn btn-primary btnUpdateNote" type="button"
+                                            data-id-note="{{ $note->id }}" data-title="{{ $note->title }}"
+                                            data-desc="{{ $note->desc }}">
+                                            <i class="bi bi-pencil" style="cursor: pointer;"></i>
                                         </button>
 
-                                        <button class="btn btn-secondary btnDeleteNote" type="button" data-id-note="{{$note->id}}">
-                                            <i class="bi bi-trash" style="cursor: pointer; margin-left: 10px;"></i>
+                                        <button class="btn btn-secondary btnDeleteNote" type="button"
+                                            data-id-note="{{ $note->id }}">
+                                            <i class="bi bi-trash" style="cursor: pointer;"></i>
                                         </button>
                                     </div>
                                 </div>
                             </li>
 
-                            <form action="{{ route('note.delete', [$note->id]) }}" method="POST">
+                            {{-- <form action="{{ route('note.delete', [$note->id]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <div class="modal fade" id="deleteNote{{ $note->id }}" tabindex="-1"
@@ -158,7 +174,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form> --}}
 
                         @empty
                             <li
@@ -169,7 +185,7 @@
                     </ul>
 
 
-                    <!-- Formularios -->
+                    {{-- <!-- Formularios -->
                     <form action="{{ route('category.delete', [$category->id]) }}" method="POST">
                         @csrf
                         @method('DELETE')
@@ -194,7 +210,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
 
 
                     {{-- <form action="{{ route('category.update', [$category->id]) }}" method="POST">
@@ -263,7 +279,7 @@
 @endsection
 
 @section('forms-cruds')
-    <form action="{{ route('category.create') }}" method="POST">
+    {{-- <form action="{{ route('category.create') }}" method="POST">
         @csrf
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -285,7 +301,30 @@
                 </div>
             </div>
         </div>
-    </form>
+    </form> --}}
+
+    <div class="modal fade" id="modal-category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{-- <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir nueva categoría</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div> --}}
+                <form method="POST" id="form-category">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="text" name="name" id="categoryName" style="width: 100%; height: 2rem;"
+                            placeholder="Nombre de la categoría" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            style="background-color: red">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: green">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="modal-notes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
