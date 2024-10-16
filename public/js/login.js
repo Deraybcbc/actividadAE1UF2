@@ -1,11 +1,13 @@
 
 
 let btnlogin;
+let btnRegister;
 
 
 function init(){
     console.log("init");
     btnlogin = document.getElementById('btnLogin');
+    btnRegister = document.querySelector('#btnRegisterUser');
 }
 
 let clickevent = function (){
@@ -38,7 +40,37 @@ let clickevent = function (){
     });
 }
 
+function registerUser(){
+    btnRegister.addEventListener('click', function(){
+
+        let contra1 = document.querySelector('#floatingPassword').value;
+        let contra2 = document.querySelector('#floatingConfirmPassword').value;
+        if(contra1!=contra2){
+            console.log("Son diferentes");
+        }else{
+            console.log("Iguales");
+        }
+/*
+        fetch('/register',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: document.querySelector('#floatingInputName').value,
+                email: document.querySelector('#floatingInputEmail').value,
+                password: document.querySelector('#floatingPassword').value
+            })
+        }).then(response=>response.json())
+        .then(data=>{
+            console.log(data);
+        })
+        .catch(error => console.log(error));*/
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function(){
     init();
-    clickevent();
+    //clickevent();
+    registerUser();
 });

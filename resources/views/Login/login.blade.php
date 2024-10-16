@@ -52,15 +52,15 @@
                     <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
                     <label for="floatingPassword" class="text-black">Password</label>
                 </div>
-            
+         
             </br>
   
-                <button class="btn btn-outline-light btn-lg px-5 v" type="submit" >Login</button>
+                <button class="btn btn-outline-light btn-lg px-5 v" type="submit">Login</button>
   
               </div>
   
               <div>
-                <p class="mb-0">Don't have an account? <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
+                <p class="mb-0">Don't have an account? <a href="{{route('login.screenRegister')}}" class="text-white-50 fw-bold">Sign Up</a>
                 </p>
               </div>
   

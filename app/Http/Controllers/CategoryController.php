@@ -64,7 +64,7 @@ class CategoryController extends Controller
 
     public function deleteCategory($id)
     {
-        $notes = Note::findOrFail($id);
+        $notes = Note::where('idCategory',$id)->get();
 
         foreach ($notes as $note) {
             $note->delete();

@@ -173,20 +173,20 @@ function deleteCategory() {
         btnDeleteCategory.addEventListener('click', function () {
             let idCategory = this.dataset.idCategory;
             console.log("Id Categoria eliminada: " + idCategory);
-            // Swal.fire({
-            //     title: 'Advertencia!',
-            //     html: 'Estas seguro de eliminar esta categoria' + '</br>' + 'Al eliminar la categoria se eliminaras las notas que esten dentro',
-            //     icon: 'warning',
-            //     showCancelButton: true,
-            //     confirmButtonText: 'Aceptar',
-            //     cancelButtonText: 'Cancelar'
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-            //         // Aquí puedes ejecutar la lógica de eliminación
-            //         console.log("Categoria eliminada: " + idCategory);
-            //         document.querySelector('.form-delete-' + idCategory).submit();
-            //     }
-            // });
+             Swal.fire({
+                title: 'Advertencia!',
+                html: 'Estas seguro de eliminar esta categoria' + '</br>' + 'Al eliminar la categoria se eliminaras las notas que esten dentro',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar'
+             }).then((result) => {
+                if (result.isConfirmed) {
+                    // Aquí puedes ejecutar la lógica de eliminación
+                    console.log("Categoria eliminada: " + idCategory);
+                    document.querySelector('.form-delete-' + idCategory).submit();
+                 }
+            });
         });
     });
     /*

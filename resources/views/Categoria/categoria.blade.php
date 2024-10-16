@@ -40,8 +40,7 @@
                             <i class="bi bi-list fs-4" style="color: white"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Usuario</a></li>
-                            <li><a class="dropdown-item" href="#">Cerrar Session</a></li>
+                            <li><a class="dropdown-item" href="{{route('login.logout')}}">Cerrar Session</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -92,9 +91,9 @@
 
                     <p style="border: 1px solid black; background-color:#60348f; color:white ">
 
-                        <button class="btn btn-secondary  btnDeleteCategory" type="button">
-                            <i class="bi bi-trash" style="cursor:pointer; color: white;"
-                                data-id-category="{{ $category->id }}"></i>
+                        <button class="btn btn-secondary  btnDeleteCategory" type="button" 
+                        data-id-category="{{ $category->id }}">
+                            <i class="bi bi-trash" style="cursor:pointer; color: white;"></i>
                         </button>
 
                         <button class="btn btn-primary  btnUpdateCategory" type="button"
