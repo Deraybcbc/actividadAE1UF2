@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('idUser', Auth::user()->id)->get();
         return view('Categoria.categoria', compact('categories'));
     }
 
@@ -64,12 +64,12 @@ class CategoryController extends Controller
 
     public function deleteCategory($id)
     {
-        $notes = Note::where('idCategory',$id)->get();
+        $notes = Note::where('idCategory', $id)->get();
 
         foreach ($notes as $note) {
             $note->delete();
         }
-        
+
         $category = Category::findOrFail($id);
 
         $category->delete();

@@ -184,7 +184,7 @@ function deleteCategory() {
                 if (result.isConfirmed) {
                     // Aquí puedes ejecutar la lógica de eliminación
                     console.log("Categoria eliminada: " + idCategory);
-                    document.querySelector('.form-delete-' + idCategory).submit();
+                    document.querySelector('.form-delete-'+ idCategory).submit();
                  }
             });
         });

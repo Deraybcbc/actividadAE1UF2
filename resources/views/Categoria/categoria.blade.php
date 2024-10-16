@@ -32,7 +32,7 @@
                 <ul class="navbar-nav w-100">
 
                     <li class="nav-item d-flex align-items w-100 text-center">
-                        <a class="navbar-brand w-100 text-white" href="#">Categorías</a>
+                        <a class="navbar-brand w-100 text-white" href="#">Buenos dias {{ Auth::user()->name }}</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -40,7 +40,7 @@
                             <i class="bi bi-list fs-4" style="color: white"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{route('login.logout')}}">Cerrar Session</a></li>
+                            <li><a class="dropdown-item" href="{{ route('login.logout') }}">Cerrar Session</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -91,9 +91,11 @@
 
                     <p style="border: 1px solid black; background-color:#60348f; color:white ">
 
-                        <button class="btn btn-secondary  btnDeleteCategory" type="button" 
-                        data-id-category="{{ $category->id }}">
-                            <i class="bi bi-trash" style="cursor:pointer; color: white;"></i>
+                        <span style="display: inline-block; margin: 0 auto;">{{ $category->name }}</span>
+
+                        <button class="btn btn-secondary btnCreateNote" type="button" style="background-color: green;"
+                            data-id-category="{{ $category->id }}">
+                            <i class="bi bi-plus-circle" style="color: white;  cursor: pointer;"></i>
                         </button>
 
                         <button class="btn btn-primary  btnUpdateCategory" type="button"
@@ -101,14 +103,11 @@
                             <i class="bi bi-pencil" style="cursor: pointer;"></i>
                         </button>
 
-                        <span style="display: inline-block; margin: 0 auto;">{{ $category->name }}</span>
-
-                        {{-- <i class="bi bi-plus-circle" style="margin-left:30px;  cursor: pointer;" data-bs-toggle="modal"
-                            data-bs-target="#createNote{{ $category->id }}"></i> --}}
-                        <button class="btn btn-secondary btnCreateNote" type="button"
+                        <button class="btn btn-secondary  btnDeleteCategory" type="button" style=" background-color:red;"
                             data-id-category="{{ $category->id }}">
-                            <i class="bi bi-plus-circle" style="color: white;  cursor: pointer;"></i>
+                            <i class="bi bi-trash" style="cursor:pointer; color: white;"></i>
                         </button>
+
 
                     </p>
 
@@ -149,32 +148,6 @@
                                 </div>
                             </li>
 
-                            {{-- <form action="{{ route('note.delete', [$note->id]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <div class="modal fade" id="deleteNote{{ $note->id }}" tabindex="-1"
-                                    aria-labelledby="deleteNote" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="deleteNote">Eliminar nota</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>¿Estás seguro de que deseas eliminar esta nota?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                                    style="background-color: red">Cancelar</button>
-                                                <button type="submit" class="btn btn-primary"
-                                                    style="background-color: green">Aceptar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form> --}}
-
                         @empty
                             <li
                                 style="margin: 6px; border: 1px solid black; border-radius: 20px; background-color: rgba(179, 179, 5, 0.384); width: 96%; text-align: left; border: none; padding: 10px; display: block;">
@@ -182,94 +155,6 @@
                             </li>
                         @endforelse
                     </ul>
-
-
-                    {{-- <!-- Formularios -->
-                    <form action="{{ route('category.delete', [$category->id]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <div class="modal fade" id="deleteModal{{ $category->id }}" tabindex="-1"
-                            aria-labelledby="deleteModal" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="deleteModal">Eliminar categoría</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>¿Estás seguro de que deseas eliminar esta categoría?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                            style="background-color: red">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary"
-                                            style="background-color: green">Aceptar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form> --}}
-
-
-                    {{-- <form action="{{ route('category.update', [$category->id]) }}" method="POST">
-                        @csrf
-                        @method('PUT') <!-- Specify PUT method -->
-
-                        <div class="modal fade" id="updateModal{{ $category->id }}" tabindex="-1"
-                            aria-labelledby="UpdateModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cambiar nombre de la categoría
-                                        </h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Input field for the new category name -->
-                                        <input type="text" name="name" id="newName"
-                                            style="width: 100%; height: 2rem;" placeholder="Nuevo nombre de la categoría"
-                                            value="{{ $category->name }}" required />
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                            style="background-color: red">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary"
-                                            style="background-color: green">Aceptar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form> --}}
-
-                    {{-- <form action="{{ route('note.create', [$category->id]) }}" method="POST">
-                        @csrf
-                        <div class="modal fade" id="createNote{{ $category->id }}" tabindex="-1"
-                            aria-labelledby="createNote" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="createNote">{{ $category->name }}</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>¿Deseas crear una nueva nota?</p>
-                                        <input type="text" name="title" id="newName"
-                                            style="width: 100%; height: 2rem;" placeholder="Titulo de la nota" required />
-                                        <textarea name="desc" rows="3" cols="50" placeholder="Descripción"></textarea>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                            style="background-color: red">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary " id="btnCreateNote"
-                                            style="background-color: green">Aceptar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form> --}}
                 </a>
             @endforeach
 
@@ -278,30 +163,6 @@
 @endsection
 
 @section('forms-cruds')
-    {{-- <form action="{{ route('category.create') }}" method="POST">
-        @csrf
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir nueva categoría</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" name="name" id="categoryName" style="width: 100%; height: 2rem;"
-                            placeholder="Nombre de la categoría" required />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            style="background-color: red">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" style="background-color: green">Aceptar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form> --}}
-
     <div class="modal fade" id="modal-category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
