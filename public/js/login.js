@@ -6,7 +6,14 @@ let btnRegister;
 
 function init(){
     console.log("init");
+
+    if (typeof authToken !== 'undefined') {
+        console.log("Token from Blade:", authToken);
+        // You can use authToken for your AJAX requests or any other purpose
+    }
+    
     btnlogin = document.getElementById('btnLogin');
+
     btnRegister = document.querySelector('#btnRegisterUser');
 }
 
@@ -72,5 +79,5 @@ function registerUser(){
 document.addEventListener('DOMContentLoaded', function(){
     init();
     //clickevent();
-    registerUser();
+    //registerUser();
 });

@@ -36,11 +36,6 @@
                                     <h1 class="fw-bold mb-4 text-uppercase">Register</h1>
                                     <p class="text-white-50 mb-5">Please register</p>
 
-                                    @if ($errors->has('email'))
-                                        <div class="alert alert-danger">
-                                            {{ $errors->first('email') }}
-                                        </div>
-                                    @endif
                                     <from action="{{ route('login.register')}}" method="POST">
                                         @csrf
                                         @method('POST')

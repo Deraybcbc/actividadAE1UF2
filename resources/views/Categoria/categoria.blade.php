@@ -68,7 +68,7 @@
     <form action="{{ route('category.index') }}" method="POST">
         @csrf
 
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
 
         <div style="display: flex; flex-wrap: wrap; justify-content: flex-start;" id="AllCategory">
 

@@ -9,6 +9,14 @@ use App\Http\Controllers\AutorizacionController;
 Route::get('/', function () {
     return view('Login.login');
 });
+
+Route::post('/login', [AutorizacionController::class, 'login'])->name('login.user');
+Route::get('/login/logout', [AutorizacionController::class, 'logout'])->name('login.logout');
+
+//REGISTER
+Route::get('/login/screenregister', [AutorizacionController::class, 'screenRegister'])->name('login.screenRegister');
+Route::post('/register', [AutorizacionController::class, 'register'])->name('login.register');
+
 /*
 //CATEGORIAS
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
@@ -17,12 +25,13 @@ Route::post('/category/update/{id}', [CategoryController::class, 'updateCategory
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');*/
 
 //LOGIN
+/*
 Route::post('/login', [AutorizacionController::class, 'login'])->name('login.user');
 Route::get('/login/logout', [AutorizacionController::class, 'logout'])->name('login.logout');
 
 //REGISTER
 Route::get('/login/screenregister', [AutorizacionController::class, 'screenRegister'])->name('login.screenRegister');
-Route::post('/register', [AutorizacionController::class, 'register'])->name('login.register');
+Route::post('/register', [AutorizacionController::class, 'register'])->name('login.register');*/
 
 /*
 //USERS
@@ -40,6 +49,7 @@ Route::delete('/note/delete/{id}', [NoteController::class, 'deleteNote'])->name(
 
 
 // Routes protected by the 'auth' middleware
+
 Route::middleware(['auth'])->group(function () {
     // CATEGORIES
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');

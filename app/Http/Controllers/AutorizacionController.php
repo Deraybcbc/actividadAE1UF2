@@ -27,7 +27,8 @@ class AutorizacionController extends Controller
             $token = $user->createToken('auth-token')->plainTextToken;
             session(['auth-token', $token]);
             //return response()->json(["success"=>"exito"]);
-            return redirect()->intended('category');
+            return redirect()->route('category.index');
+            //return redirect()->intended('category');
         }
 
         return back()->withErrors(['email'=> 'Correo o contraseña no son correctas'])->onlyInput('email');
@@ -58,15 +59,8 @@ class AutorizacionController extends Controller
         // Log the user in
         Auth::login($user);
 
-        $request->session()->regenerate();
-        // Check if the request expects JSON (API request)
-        if ($request->wantsJson()) {
-            return response()->json([
-                'message' => 'User registered successfully',
-                'token' => $token,
-            ], 201);
-        }
-
+        //$request->session()->regenerate();
+        
         return redirect()->route('category.index');
         
     }
